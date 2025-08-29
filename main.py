@@ -11,19 +11,18 @@
 
 def existeUsuario(email, usuarios_list): 
     for usuario in usuarios_list:
-        if usuario[1] == email:  # email está en índice 1
+        if usuario[0] == email:  # email está en índice 1
             return True
     return False
 
 def verificarContraseña(email, contraseña, usuarios_list):
-    while True:
-        for usuario in usuarios_list:
-            if usuario[0] == email and usuario[1] == contraseña:
-                print("Inicio de sesión exitoso.")
-                return True
-        
-        print("Contraseña incorrecta.")
-        contraseña = input("Ingrese su contraseña nuevamente: ")
+    for usuario in usuarios_list:
+        if usuario[0] == email and usuario[1] == contraseña:
+            print("Inicio de sesión exitoso.")
+            return True
+    
+    print("Contraseña incorrecta.")
+    return False
 
 def registrarUsuario(nombre, email, contraseña, usuarios_list):
     # Verificar si el usuario ya existe
