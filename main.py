@@ -8,30 +8,39 @@
 #matriz con filas por show = [nombre, fecha, cant_Max_Entradas, precio, cant_Entradas_Vendidas]
 #mas adelante tiene que leerse un archivo [con los shows] en vez de tenerlos en el programa
 #Funciones 
+import os
+import time
 
-def existeUsuario(email, usuarios_list): 
-    for usuario in usuarios_list:
-        if usuario[0] == email:  # email está en índice 1
+def cerrandoSesion():
+    for i in range(3, 0, -1):
+        print(f"Cerrando sesión{'.' * i}{' ' * (3 - i)}", end='\r')
+        time.sleep(1.15)
+    os.system('cls')  # Limpia la consola
+    return
+
+def existeUsuario(email, listaUsuarios): 
+    for usuario in listaUsuarios:
+        if usuario[1] == email:  # email está en índice 1
             return True
     return False
 
-def verificarContraseña(email, contraseña, usuarios_list):
-    for usuario in usuarios_list:
-        if usuario[0] == email and usuario[1] == contraseña:
+def verificarContraseña(email, contraseña, listaUsuarios):
+    for usuario in listaUsuarios:
+        if usuario[1] == email and usuario[2] == contraseña:
             print("Inicio de sesión exitoso.")
             return True
     
     print("Contraseña incorrecta.")
     return False
 
-def registrarUsuario(nombre, email, contraseña, usuarios_list):
+def registrarUsuario(username, email, contraseña, listaUsuarios):
     # Verificar si el usuario ya existe
-    if existeUsuario(email, usuarios_list):
+    if existeUsuario(email, listaUsuarios):
         print("El usuario ya existe.")
         return False
     
     # Agregar nuevo usuario: [email, contraseña, nombre, entradaComprada, cantComprada]
-    usuarios_list.append([email, contraseña, nombre, -1, 0])
+    listaUsuarios.append([username, email, contraseña, -1, 0])
     print("Usuario registrado exitosamente.")
     return True
 
@@ -41,40 +50,45 @@ shows = [
     ["Big Time Rush", "2026-04-24", 150, 75.0, 0],
     ["Espectaculo caro", "2026-06-30", 50, 15000.0, 0],
 ]
+
+listaUsuarios = []
+
+def logueo():
+    validado = False
+    while not validado:
+        usuario = []
+        print(f"Esto es lo que hay {listaUsuarios}")
+        mail = input("Ingrese su mail: ")
+        if "@" in mail and "." in mail:
+            if(existeUsuario(mail, listaUsuarios)):
+                #Pedimos contraseña para verificar que sea el usuario correcto
+                contr = input("Ingrese su contraseña: ")
+                validado = verificarContraseña(mail, contr, listaUsuarios)
+            else:
+                print("No existe el usuario, proceda a registrarse.")
+                # mail = input("Ingrese su mail: ")
+                contr = input("Ingrese su contraseña: ")
+                username = mail.split('@')[0]
+                print(f"Nombre de usuario: {username}")
+                validado = registrarUsuario(username, mail, contr, listaUsuarios)
+        else:
+            print("El mail ingresado no es válido.")
+    for usuario in listaUsuarios:
+        if usuario[1] == mail:
+            return usuario
 #diccionario para almacenar los usuarios
-#nombre, mail, contraseña, entradaComprada (id de show, no nombre), cantComprada
+#user, mail, contraseña, entradaComprada (id de show, no nombre), cantComprada
 
 #se registra o inicia sesion
 #aparece menu con acciones posibles: 1. comprar entradas 2. ver mis entradas -1. salir (cerrar sesión)
 #si el usuario ya tiene entradas compradas, no puede comprar a otros shows que no sea del que ya tiene
 #si el usuario no tiene entradas, puede comprar en cualquier show
 
-
-#esto es una mantriz pero tiene que hacerse diccionarios cuando lo veamos OJO
-usuarios = []
-
 #MAIN
-#Aca verificamos al usuario
-
-
-
-
-validado = False
-mail = input("Ingrese su mail: ")
-if(existeUsuario(mail, usuarios)):
-    #Pedimos contraseña para verificar que sea el usuario correcto
-    contr = input("Ingrese su contraseña: ")
-    validado = verificarContraseña(mail, contr, usuarios)
-        
-else:
-    print("No existe el usuario, proceda a registrarse.")
-    # mail = input("Ingrese su mail: ")
-    contr = input("Ingrese su contraseña: ")
-    nombre = input("Ingrese su nombre: ")
-    validado = registrarUsuario(nombre, mail, contr, usuarios)
-
-if(validado):
-    print(f"Bienvenido")
+usuarioLogueado = []
+usuarioLogueado = logueo()
+while(usuarioLogueado != []):
+    print(f"Bienvenido {usuarioLogueado[0]}!")
     #Mostrar menu de inicio
     while True:
         print("1. Comprar entradas")
@@ -86,8 +100,10 @@ if(validado):
             print("Espectáculos disponibles:")
             showElegido = -1
             for i,show in enumerate(shows):
-                print(f"{i+1}. {shows.index(show)} - {show[0]} - {show[1]} - Entradas disponibles: {show[2] - show[4]} - Precio: ${show[3]}")
+                if(show[2] - show[4]) > 0:
+                    print(f"{i+1}. {show[0]} - {show[1]} - Entradas disponibles: {show[2] - show[4]} - Precio: ${show[3]}")
             showElegido = int(input("Ingrese el número del espectáculo al que desea asistir: "))
+            #aca verifica que el show elegido sea válido y que haya entradas disponibles
             if showElegido > 0 and showElegido <= len(shows):
                 showElegido -= 1
                 #Comprar entradas
@@ -95,35 +111,39 @@ if(validado):
                 cantEntradas = int(input(f"Cuantas entradas desea comprar? (Disponibles: {shows[showElegido][2] - shows[showElegido][4]})\n"))
                 if cantEntradas > 0 and cantEntradas <= (shows[showElegido][2] - shows[showElegido][4]):
                     #Verificar si el usuario ya tiene entradas compradas
-                    for usuario in usuarios:
-                        if usuario[0] == mail:
-                            if usuario[3] == -1 or usuario[3] == showElegido:
-                                #Actualizar la cantidad de entradas vendidas en el show
+                        if usuarioLogueado[3] == -1 or usuarioLogueado[3] == showElegido:
+                            #Verificar el precio a pagar
+                            confirmacion = input(f"Está por pagar ${cantEntradas * shows[showElegido][3]}. Confirma la compra? (Si/No)\n")
+                            if(confirmacion.lower() == "si"):
+                                    #Actualizar la cantidad de entradas vendidas en el show
                                 shows[showElegido][4] += cantEntradas
                                 #Actualizar la información del usuario
-                                usuario[3] = showElegido
-                                usuario[4] += cantEntradas
+                                usuarioLogueado[3] = showElegido
+                                usuarioLogueado[4] += cantEntradas
                                 print(f"Has comprado {cantEntradas} entradas para {shows[showElegido][0]}.")
                             else:
-                                print("Ya tienes entradas compradas para otro espectáculo. No puedes comprar en este.")
-                            
+                                print("Compra cancelada.")
+                        else:
+                            print("Ya tienes entradas compradas para otro espectáculo. No puedes comprar en este.")
+                else:
+                    print("Se está tratanto de comprar una cantidad inválida de entradas.")            
             else:
                 print("Opción inválida.")
                 
         elif(opcion == 2):
             print("Estas son tus entradas")
-            for usuario in usuarios:
-                if usuario[0] == mail:
-                    if usuario[3] == -1:
-                        print("No tienes entradas compradas.")
-                    else:
-                        idShow = usuario[3]
-                        cant = usuario[4]
-                        showComprado = shows[idShow]
-                        print(f"Espectáculo: {showComprado[0]} - Fecha: {showComprado[1]} - Cantidad de entradas: {cant} - Precio total: ${cant * showComprado[3]}")
-                    break
-        else:
-            print("Cerrando sesión...")
+            if usuarioLogueado[3] == -1:
+                print("No tienes entradas compradas.")
+            else:
+                idShow = usuarioLogueado[3]
+                cant = usuarioLogueado[4]
+                showComprado = shows[idShow]
+                print(f"Espectáculo: {showComprado[0]} - Fecha: {showComprado[1]} - Cantidad de entradas: {cant} - Precio total: ${cant * showComprado[3]}")
             break
+        elif(opcion == -1):
+            cerrandoSesion()
+            usuarioLogueado = logueo()
+        else:
+            print("Opción inválida.")
 
-        
+

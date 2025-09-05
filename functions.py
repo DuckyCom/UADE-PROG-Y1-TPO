@@ -1,4 +1,8 @@
 #Funciones 
+import os
+import time
+
+
 
 def existeUsuario(email, usuarios_list): 
     for usuario in usuarios_list:
@@ -25,13 +29,13 @@ def registrarUsuario(nombre, email, contraseña, usuarios_list):
     print("Usuario registrado exitosamente.")
     return True
 
-def espacioEnPantalla():
-    print("\n" * 5)
+
+def cerrandoSesion():
+    for i in range(3, 0, -1):
+        print(f"Cerrando sesión{'.' * i}{' ' * (3 - i)}", end='\r')
+        time.sleep(1.15)
+    os.system('cls')  # Limpia la consola
     return
-
-
-
-
 
 
 
