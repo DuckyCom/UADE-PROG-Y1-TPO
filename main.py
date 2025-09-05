@@ -87,10 +87,27 @@ if(validado):
             showElegido = -1
             for i,show in enumerate(shows):
                 print(f"{i+1}. {shows.index(show)} - {show[0]} - {show[1]} - Entradas disponibles: {show[2] - show[4]} - Precio: ${show[3]}")
-            showElegido = int(input("Ingrese el número del   espectáculo al que desea asistir: "))
+            showElegido = int(input("Ingrese el número del espectáculo al que desea asistir: "))
             if showElegido > 0 and showElegido <= len(shows):
                 showElegido -= 1
                 print(f"Has seleccionado: {shows[showElegido][0]} el {shows[showElegido][1]}")
+                print(f"Cuantas entradas desea comprar? (Disponibles: {shows[showElegido][2] - shows[showElegido][4]})")
+                #que variable tenemos para ingresar la cantidad de entradas que quiere comprar?
                 
+        elif(opcion == 2):
+            print("Estas son tus entradas")
+            for usuario in usuarios:
+                if usuario[0] == mail:
+                    if usuario[3] == -1:
+                        print("No tienes entradas compradas.")
+                    else:
+                        idShow = usuario[3]
+                        cant = usuario[4]
+                        showComprado = shows[idShow]
+                        print(f"Espectáculo: {showComprado[0]} - Fecha: {showComprado[1]} - Cantidad de entradas: {cant} - Precio total: ${cant * showComprado[3]}")
+                    break
+        else:
+            print("Cerrando sesión...")
+            break
 
         
