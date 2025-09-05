@@ -7,7 +7,15 @@
 
 #matriz con filas por show = [nombre, fecha, cant_Max_Entradas, precio, cant_Entradas_Vendidas]
 #mas adelante tiene que leerse un archivo [con los shows] en vez de tenerlos en el programa
-#Funciones 
+#Funciones
+
+
+
+# TODO
+# HICIMOS DE QUE NO APAREZCAN LOS SHOWS CON 0 ENTRADAS DISPONIBLES PERO
+# SI SELECCIONA SU NUMERO, APARECE PARA COMPRAR IGUALMENTE, DEBE DE HABER UNA VERIFICACION PARA QUE
+# SI ENTRADAS DISPONIBLES = 0, NO DEJE SELECCIONAR ESE SHOW [TIRE OPCION INVALIDA]
+ 
 import os
 import time
 
