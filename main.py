@@ -68,7 +68,7 @@ if(existeUsuario(mail, usuarios)):
         
 else:
     print("No existe el usuario, proceda a registrarse.")
-    mail = input("Ingrese su mail: ")
+    # mail = input("Ingrese su mail: ")
     contr = input("Ingrese su contraseña: ")
     nombre = input("Ingrese su nombre: ")
     validado = registrarUsuario(nombre, mail, contr, usuarios)
@@ -82,7 +82,7 @@ if(validado):
         print("-1. Salir")
         opcion = int(input("Ingrese una opción: "))
         if(opcion == 1):
-            #Comprar entradas
+            #Espectaculos disponibles e información de cada uno
             print("Espectáculos disponibles:")
             showElegido = -1
             for i,show in enumerate(shows):
@@ -90,9 +90,25 @@ if(validado):
             showElegido = int(input("Ingrese el número del espectáculo al que desea asistir: "))
             if showElegido > 0 and showElegido <= len(shows):
                 showElegido -= 1
+                #Comprar entradas
                 print(f"Has seleccionado: {shows[showElegido][0]} el {shows[showElegido][1]}")
-                print(f"Cuantas entradas desea comprar? (Disponibles: {shows[showElegido][2] - shows[showElegido][4]})")
-                #que variable tenemos para ingresar la cantidad de entradas que quiere comprar?
+                cantEntradas = int(input(f"Cuantas entradas desea comprar? (Disponibles: {shows[showElegido][2] - shows[showElegido][4]})\n"))
+                if cantEntradas > 0 and cantEntradas <= (shows[showElegido][2] - shows[showElegido][4]):
+                    #Verificar si el usuario ya tiene entradas compradas
+                    for usuario in usuarios:
+                        if usuario[0] == mail:
+                            if usuario[3] == -1 or usuario[3] == showElegido:
+                                #Actualizar la cantidad de entradas vendidas en el show
+                                shows[showElegido][4] += cantEntradas
+                                #Actualizar la información del usuario
+                                usuario[3] = showElegido
+                                usuario[4] += cantEntradas
+                                print(f"Has comprado {cantEntradas} entradas para {shows[showElegido][0]}.")
+                            else:
+                                print("Ya tienes entradas compradas para otro espectáculo. No puedes comprar en este.")
+                            
+            else:
+                print("Opción inválida.")
                 
         elif(opcion == 2):
             print("Estas son tus entradas")

@@ -25,6 +25,9 @@ def registrarUsuario(nombre, email, contraseña, usuarios_list):
     print("Usuario registrado exitosamente.")
     return True
 
+def espacioEnPantalla():
+    print("\n" * 5)
+    return
 
 
 
