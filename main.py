@@ -11,7 +11,7 @@
 
 
 
-# TODO
+# DONE
 # HICIMOS DE QUE NO APAREZCAN LOS SHOWS CON 0 ENTRADAS DISPONIBLES PERO
 # SI SELECCIONA SU NUMERO, APARECE PARA COMPRAR IGUALMENTE, DEBE DE HABER UNA VERIFICACION PARA QUE
 # SI ENTRADAS DISPONIBLES = 0, NO DEJE SELECCIONAR ESE SHOW [TIRE OPCION INVALIDA]
@@ -52,6 +52,11 @@ def registrarUsuario(username, email, contraseña, listaUsuarios):
     print("Usuario registrado exitosamente.")
     return True
 
+def transfNombreUsuario(mail):
+    username = (mail.split('@')[0]).title()
+    #print("Este es el username que sale de la funcion: ", username)
+    return username
+
 shows = [
     ["Nombre XD", "2026-05-15", 100, 50.0, 0],
     ["Lollapalooza 2026", "2026-03-12", 80, 30.0, 0],
@@ -65,7 +70,7 @@ def logueo():
     validado = False
     while not validado:
         usuario = []
-        print(f"Esto es lo que hay {listaUsuarios}")
+        #print(f"Esto es lo que hay {listaUsuarios}")
         mail = input("Ingrese su mail: ")
         if "@" in mail and "." in mail:
             if(existeUsuario(mail, listaUsuarios)):
@@ -76,7 +81,7 @@ def logueo():
                 print("No existe el usuario, proceda a registrarse.")
                 # mail = input("Ingrese su mail: ")
                 contr = input("Ingrese su contraseña: ")
-                username = mail.split('@')[0]
+                username = transfNombreUsuario(mail)
                 print(f"Nombre de usuario: {username}")
                 validado = registrarUsuario(username, mail, contr, listaUsuarios)
         else:
@@ -112,7 +117,7 @@ while(usuarioLogueado != []):
                     print(f"{i+1}. {show[0]} - {show[1]} - Entradas disponibles: {show[2] - show[4]} - Precio: ${show[3]}")
             showElegido = int(input("Ingrese el número del espectáculo al que desea asistir: "))
             #aca verifica que el show elegido sea válido y que haya entradas disponibles
-            if showElegido > 0 and showElegido <= len(shows):
+            if showElegido > 0 and showElegido <= len(shows) and (shows[showElegido-1][2] - shows[showElegido-1][4]) > 0:
                 showElegido -= 1
                 #Comprar entradas
                 print(f"Has seleccionado: {shows[showElegido][0]} el {shows[showElegido][1]}")
