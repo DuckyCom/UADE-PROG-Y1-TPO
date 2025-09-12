@@ -12,6 +12,7 @@
 # TO DO
 # HACER QUE LA SALIDA ESTÉ FORMATEADA, MÁS PROLIJA
 # CON LO DE RIGHT O PONER VACIOS O SIMILAR
+# PONER EN MIS ENTRADAS FORMATO nombreShow .............. numEntradas
 
 # DONE
 # HICIMOS DE QUE NO APAREZCAN LOS SHOWS CON 0 ENTRADAS DISPONIBLES PERO
@@ -73,7 +74,7 @@ def logueo():
     while not validado:
         usuario = []
         #print(f"Esto es lo que hay {listaUsuarios}")
-        mail = input("Ingrese su mail: ")
+        mail = input(("Ingrese su mail: ").ljust(30, '.'))
         if "@" in mail and "." in mail:
             if(existeUsuario(mail, listaUsuarios)):
                 #Pedimos contraseña para verificar que sea el usuario correcto
@@ -82,9 +83,9 @@ def logueo():
             else:
                 print("No existe el usuario, proceda a registrarse.")
                 # mail = input("Ingrese su mail: ")
-                contr = input("Ingrese su contraseña: ")
+                contr = input(("Ingrese su contraseña: ").ljust(30, '.'))
                 username = transfNombreUsuario(mail)
-                print(f"Nombre de usuario: {username}")
+                #print(f"Nombre de usuario: {username}")
                 validado = registrarUsuario(username, mail, contr, listaUsuarios)
         else:
             print("El mail ingresado no es válido.")
@@ -102,8 +103,8 @@ def logueo():
 #MAIN
 usuarioLogueado = []
 usuarioLogueado = logueo()
+print((f"Bienvenido {usuarioLogueado[0]}!").center(100,'-'))
 while(usuarioLogueado != []):
-    print(f"Bienvenido {usuarioLogueado[0]}!")
     #Mostrar menu de inicio
     while True:
         print("1. Comprar entradas")
@@ -146,14 +147,14 @@ while(usuarioLogueado != []):
                 print("Opción inválida.")
                 
         elif(opcion == 2):
-            print("Estas son tus entradas")
             if usuarioLogueado[3] == -1:
-                print("No tienes entradas compradas.")
+                print(("No tienes entradas compradas.").center(100,'-'))
             else:
+                print(("Estas son tus entradas: ").center(100,'-')) # PONER EN CENTRO
                 idShow = usuarioLogueado[3]
                 cant = usuarioLogueado[4]
                 showComprado = shows[idShow]
-                print(f"Espectáculo: {showComprado[0]} - Fecha: {showComprado[1]} - Cantidad de entradas: {cant} - Precio total: ${cant * showComprado[3]}")
+                print(f"{showComprado[0]} - {showComprado[1]} - {cant} entradas - ${cant * showComprado[3]}") #HACER LO DE BARRA Y FLECHAS QUE DIJO BENJA
             break
         elif(opcion == -1):
             cerrandoSesion()
