@@ -9,6 +9,9 @@
 #mas adelante tiene que leerse un archivo [con los shows] en vez de tenerlos en el programa
 #Funciones
 
+# TO DO
+# HACER QUE LA SALIDA ESTÉ FORMATEADA, MÁS PROLIJA
+# CON LO DE RIGHT O PONER VACIOS O SIMILAR
 
 # DONE
 # HICIMOS DE QUE NO APAREZCAN LOS SHOWS CON 0 ENTRADAS DISPONIBLES PERO
