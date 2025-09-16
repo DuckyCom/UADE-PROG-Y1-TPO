@@ -10,11 +10,15 @@
 #Funciones
 
 # TO DO
+# Cambiar en la funcion registrarUsuario: el append por este: listaUsuarios.append([username, email, contraseña, [idShow, cantEntradas]]) 
+# Con esto hacemos una lista de tuplas (id_show, cantidad) para las compras.
+# Agregar que se lean/escriban los usuarios y shows a archivos .json/.csv
+# 
+
+# DONE
 # HACER QUE LA SALIDA ESTÉ FORMATEADA, MÁS PROLIJA
 # CON LO DE RIGHT O PONER VACIOS O SIMILAR
 # PONER EN MIS ENTRADAS FORMATO nombreShow .............. numEntradas
-
-# DONE
 # HICIMOS DE QUE NO APAREZCAN LOS SHOWS CON 0 ENTRADAS DISPONIBLES PERO
 # SI SELECCIONA SU NUMERO, APARECE PARA COMPRAR IGUALMENTE, DEBE DE HABER UNA VERIFICACION PARA QUE
 # SI ENTRADAS DISPONIBLES = 0, NO DEJE SELECCIONAR ESE SHOW [TIRE OPCION INVALIDA]
@@ -26,6 +30,10 @@ def cerrandoSesion():
     for i in range(3, 0, -1):
         print(f"Cerrando sesión{'.' * i}{' ' * (3 - i)}", end='\r')
         time.sleep(1.15)
+    os.system('cls')  # Limpia la consola
+    return
+
+def limpiarconsola():
     os.system('cls')  # Limpia la consola
     return
 
@@ -103,16 +111,21 @@ def logueo():
 #MAIN
 usuarioLogueado = []
 usuarioLogueado = logueo()
-print((f"Bienvenido {usuarioLogueado[0]}!").center(100,'-'))
+logueoPrimero = True
 while(usuarioLogueado != []):
+    if logueoPrimero:
+        print((f"Bienvenido {usuarioLogueado[0]}!").center(50,'-'))
+        logueoPrimero = False
     #Mostrar menu de inicio
     while True:
-        print("1. Comprar entradas")
+
+        print(f"\n1. Comprar entradas")
         print("2. Ver mis entradas")
         print("-1. Salir")
         opcion = int(input("Ingrese una opción: "))
         if(opcion == 1):
             #Espectaculos disponibles e información de cada uno
+            limpiarconsola()
             print("Espectáculos disponibles:")
             showElegido = -1
             for i,show in enumerate(shows):
@@ -123,6 +136,7 @@ while(usuarioLogueado != []):
             if showElegido > 0 and showElegido <= len(shows) and (shows[showElegido-1][2] - shows[showElegido-1][4]) > 0:
                 showElegido -= 1
                 #Comprar entradas
+                limpiarconsola()
                 print(f"Has seleccionado: {shows[showElegido][0]} el {shows[showElegido][1]}")
                 cantEntradas = int(input(f"Cuantas entradas desea comprar? (Disponibles: {shows[showElegido][2] - shows[showElegido][4]})\n"))
                 if cantEntradas > 0 and cantEntradas <= (shows[showElegido][2] - shows[showElegido][4]):
@@ -136,29 +150,37 @@ while(usuarioLogueado != []):
                                 #Actualizar la información del usuario
                                 usuarioLogueado[3] = showElegido
                                 usuarioLogueado[4] += cantEntradas
-                                print(f"Has comprado {cantEntradas} entradas para {shows[showElegido][0]}.")
+                                limpiarconsola()
+                                print((f"Has comprado {cantEntradas} entradas para {shows[showElegido][0]}.").center(50,'-'))
                             else:
+                                limpiarconsola()
                                 print("Compra cancelada.")
                         else:
+                            limpiarconsola()
                             print("Ya tienes entradas compradas para otro espectáculo. No puedes comprar en este.")
                 else:
+                    limpiarconsola()
                     print("Se está tratanto de comprar una cantidad inválida de entradas.")            
             else:
-                print("Opción inválida.")
+                limpiarconsola()
+                print("Opción inválida.")    
                 
         elif(opcion == 2):
             if usuarioLogueado[3] == -1:
-                print(("No tienes entradas compradas.").center(100,'-'))
+                limpiarconsola()
+                print(("No tienes entradas compradas.").center(50,'-'))
             else:
-                print(("Estas son tus entradas: ").center(100,'-')) # PONER EN CENTRO
+                limpiarconsola()
+                print(("Estas son tus entradas: ").center(50,'-')) # PONER EN CENTRO
                 idShow = usuarioLogueado[3]
                 cant = usuarioLogueado[4]
                 showComprado = shows[idShow]
-                print(f"{showComprado[0]} - {showComprado[1]} - {cant} entradas - ${cant * showComprado[3]}") #HACER LO DE BARRA Y FLECHAS QUE DIJO BENJA
+                print(f"{showComprado[0]} - {showComprado[1]} - {cant} entradas - ${cant * showComprado[3]}\n") #HACER LO DE BARRA Y FLECHAS QUE DIJO BENJA
             break
         elif(opcion == -1):
             cerrandoSesion()
             usuarioLogueado = logueo()
+            logueoPrimero = True
         else:
             print("Opción inválida.")
 
