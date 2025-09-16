@@ -113,12 +113,13 @@ usuarioLogueado = []
 usuarioLogueado = logueo()
 logueoPrimero = True
 while(usuarioLogueado != []):
-    #Mostrar menu de inicio
+   
     while True:
-        # print("vuelve al primer while")
+        
         if logueoPrimero:
             print((f"Bienvenido {usuarioLogueado[0]}!").center(50,'-'))
             logueoPrimero = False
+        #Mostrar menu de inicio
         print(f"\n1. Comprar entradas")
         print("2. Ver mis entradas")
         print("-1. Salir")
@@ -184,5 +185,3 @@ while(usuarioLogueado != []):
             break
         else:
             print("Opción inválida.")
-
-
