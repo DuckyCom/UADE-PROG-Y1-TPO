@@ -1,0 +1,6 @@
+id,nombre,fecha,id_locacion,entradas_restantes
+1,Festival Rock Solidario,2025-11-22,3,[30000]
+2,Final Copa Libertadores,2025-11-29,1,"[0, 25000, 10000]"
+3,Concierto de Pop Internacional,2026-02-14,2,"[8000, 3500]"
+4,Obra de Teatro Clásica,2026-04-10,4,"[1500, 1000, 700]"
+5,Argentina Game Show (AGS),2025-10-17,3,[30000]

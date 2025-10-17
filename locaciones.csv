@@ -1,0 +1,5 @@
+id,nombre,precios,capacidades,tipos_entrada
+1,Estadio Monumental,"[15000.0, 35000.0, 60000.0]","[50000, 25000, 10000]","[""Popular"", ""Platea"", ""Campo VIP""]"
+2,Movistar Arena,"[18000.0, 28000.0]","[8000, 3500]","[""Platea Alta"", ""Campo""]"
+3,Campo Argentino de Polo,[25000.0],[30000],"[""General""]"
+4,Teatro Gran Rex,"[12000.0, 22000.0, 30000.0]","[1500, 1000, 700]","[""Pullman"", ""Platea Oro"", ""Platea Platino""]"
